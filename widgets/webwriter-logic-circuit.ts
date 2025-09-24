@@ -17,6 +17,16 @@ import Gate from './src/gates/gate.js';
 import ConnectorElement from './src/connector.js';
 import { getConnectorCoordinates, getMouseCoordinates, calculatePathToMouse } from './src/helper/line-helper.js';
 
+// Type definitions for better documentation and development experience
+import type { 
+    GateType, 
+    SignalValue, 
+    LogicCircuitConfig, 
+    GateEventDetail, 
+    ConnectionEventDetail, 
+    SimulationEventDetail 
+} from './types.js';
+
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import SlButton from '@shoelace-style/shoelace/dist/components/button/button.component.js';
 import SlButtonGroup from '@shoelace-style/shoelace/dist/components/button-group/button-group.component.js';
