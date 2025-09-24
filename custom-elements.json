@@ -1,0 +1,614 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "widgets/webwriter-logic-circuit.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LogicCircuit",
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElementWw.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "localize",
+              "privacy": "public",
+              "default": "LOCALIZE"
+            },
+            {
+              "kind": "field",
+              "name": "scopedElements",
+              "privacy": "public",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "lineElements",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "lineElements"
+            },
+            {
+              "kind": "field",
+              "name": "gateElements",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "gateElements"
+            },
+            {
+              "kind": "field",
+              "name": "reflectGates",
+              "type": {
+                "text": "String"
+              },
+              "default": "\"\"",
+              "attribute": "reflectGates",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "reflectCons",
+              "type": {
+                "text": "String"
+              },
+              "default": "\"\"",
+              "attribute": "reflectCons",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "gateID",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "gateID"
+            },
+            {
+              "kind": "field",
+              "name": "lineID",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "lineID"
+            },
+            {
+              "kind": "field",
+              "name": "zoom",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "zoom"
+            },
+            {
+              "kind": "field",
+              "name": "dragStartX",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "dragStartX"
+            },
+            {
+              "kind": "field",
+              "name": "dragStartY",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "dragStartY"
+            },
+            {
+              "kind": "field",
+              "name": "simulate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "simulate"
+            },
+            {
+              "kind": "field",
+              "name": "simulationDelay",
+              "type": {
+                "text": "number"
+              },
+              "default": "500",
+              "attribute": "simulationDelay",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "allowSimulation",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "allowSimulation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "notGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "notGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "andGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "andGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "orGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "nandGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "nandGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "norGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "norGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "xnorGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "xnorGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "xorGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "xorGateAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "splitterAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "splitterAllowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "isDragging",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "isDragging"
+            },
+            {
+              "kind": "field",
+              "name": "isDrawingLine",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "startConnector",
+              "type": {
+                "text": "ConnectorElement"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "endConnector",
+              "type": {
+                "text": "ConnectorElement"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "svgCanvas"
+            },
+            {
+              "kind": "field",
+              "name": "workspaceContainer"
+            },
+            {
+              "kind": "field",
+              "name": "wsDrag"
+            },
+            {
+              "kind": "field",
+              "name": "simCheckbox"
+            },
+            {
+              "kind": "field",
+              "name": "instructionsContainer"
+            },
+            {
+              "kind": "field",
+              "name": "getGateElements",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "getLineElements",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "svgPathToMouse",
+              "type": {
+                "text": "SVGPathElement | null"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "toggleInstructions"
+            },
+            {
+              "kind": "method",
+              "name": "handleAllowSimulation"
+            },
+            {
+              "kind": "method",
+              "name": "handleFlipAllGates"
+            },
+            {
+              "kind": "method",
+              "name": "handleMouseDown",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleMouseMove",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "transformWorkspace"
+            },
+            {
+              "kind": "method",
+              "name": "handleMouseUp"
+            },
+            {
+              "kind": "method",
+              "name": "handleWheel",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleMouseOut",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleContextMenu",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDragOver",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDrop",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDropTrashCan",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleInputChange",
+              "parameters": [
+                {
+                  "name": "event"
+                },
+                {
+                  "name": "propertyName"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "simulateCircuit"
+            },
+            {
+              "kind": "method",
+              "name": "resetCircuit"
+            },
+            {
+              "kind": "method",
+              "name": "calculateBoundaries"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "lineElements",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "lineElements"
+            },
+            {
+              "name": "gateElements",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "gateElements"
+            },
+            {
+              "name": "reflectGates",
+              "type": {
+                "text": "String"
+              },
+              "default": "\"\"",
+              "fieldName": "reflectGates"
+            },
+            {
+              "name": "reflectCons",
+              "type": {
+                "text": "String"
+              },
+              "default": "\"\"",
+              "fieldName": "reflectCons"
+            },
+            {
+              "name": "gateID",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "gateID"
+            },
+            {
+              "name": "lineID",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "lineID"
+            },
+            {
+              "name": "zoom",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "zoom"
+            },
+            {
+              "name": "dragStartX",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "dragStartX"
+            },
+            {
+              "name": "dragStartY",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "dragStartY"
+            },
+            {
+              "name": "simulate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "simulate"
+            },
+            {
+              "name": "simulationDelay",
+              "type": {
+                "text": "number"
+              },
+              "default": "500",
+              "fieldName": "simulationDelay"
+            },
+            {
+              "name": "allowSimulation",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "allowSimulation"
+            },
+            {
+              "name": "notGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "notGateAllowed"
+            },
+            {
+              "name": "andGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "andGateAllowed"
+            },
+            {
+              "name": "orGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "orGateAllowed"
+            },
+            {
+              "name": "nandGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "nandGateAllowed"
+            },
+            {
+              "name": "norGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "norGateAllowed"
+            },
+            {
+              "name": "xnorGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "xnorGateAllowed"
+            },
+            {
+              "name": "xorGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "xorGateAllowed"
+            },
+            {
+              "name": "splitterAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "splitterAllowed"
+            },
+            {
+              "name": "isDragging",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "isDragging"
+            }
+          ],
+          "superclass": {
+            "name": "LitElementWw",
+            "package": "@webwriter/lit"
+          },
+          "tagName": "webwriter-logic-circuit",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LogicCircuit",
+            "module": "widgets/webwriter-logic-circuit.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "webwriter-logic-circuit",
+          "declaration": {
+            "name": "LogicCircuit",
+            "module": "widgets/webwriter-logic-circuit.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

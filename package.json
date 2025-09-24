@@ -68,9 +68,11 @@
     "./snippets/halfadder.html": "./snippets/halfadder.html",
     "./snippets/RS-FlipFlop.html": "./snippets/RS-FlipFlop.html",
     "./icon": "./icon.svg",
-    "./editing-config.json": "./editing-config.json"
+    "./editing-config.json": "./editing-config.json",
+    "./custom-elements.json": "./custom-elements.json"
   },
   "editingConfig": {
     ".": {}
-  }
+  },
+  "customElements": "custom-elements.json"
 }
