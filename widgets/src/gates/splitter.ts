@@ -2,6 +2,35 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * Splitter Element
+ * 
+ * Splits a single input signal to multiple output connections.
+ * Useful for distributing one signal to multiple destinations.
+ * 
+ * @element splitter-gate
+ * @summary Signal splitter for distributing one input to multiple outputs
+ * @description Splitter with the following behavior:
+ * - One input connector (input1)
+ * - Two output connectors (output, output2)
+ * - Both outputs equal the input value
+ * - No logic operation performed (just signal distribution)
+ * - Used for fanout in digital circuits
+ * 
+ * The splitter is essential for connecting one output to multiple inputs
+ * in complex circuit designs.
+ * 
+ * @fires output-changed - When either output value changes
+ * 
+ * @example
+ * ```html
+ * <splitter-gate></splitter-gate>
+ * ```
+ * 
+ * @slot con1 - Input connector slot
+ * @slot con3 - First output connector slot
+ * @slot con4 - Second output connector slot
+ */
 export default class Splitter extends Gate {
     constructor() {
         super();
@@ -9,6 +38,11 @@ export default class Splitter extends Gate {
         this.output2 = false;
     }
 
+    /**
+     * Calculate the splitter outputs
+     * Both outputs equal the input value (simple signal distribution)
+     * @protected
+     */
     calculateOutput() {
         this.output = this.input1;
         this.output2 = this.input1;

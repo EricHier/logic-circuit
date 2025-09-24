@@ -2,12 +2,40 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * XNOR Gate
+ * 
+ * Implements the logical XNOR (exclusive NOR) operation with two inputs and one output.
+ * Output is true when inputs are the same.
+ * 
+ * @element xnor-gate
+ * @summary Two-input XNOR logic gate (exclusive NOR)
+ * @description XNOR gate with the following behavior:
+ * - Two input connectors (input1, input2)
+ * - One output connector
+ * - Output = input1 XNOR input2 (exclusive nor)
+ * - Truth table: (0,0)→1, (0,1)→0, (1,0)→0, (1,1)→1
+ * - Also known as equivalence gate
+ * - Used for equality comparison
+ * 
+ * @fires output-changed - When the gate's output value changes
+ * 
+ * @example
+ * ```html
+ * <xnor-gate></xnor-gate>
+ * ```
+ */
 export default class XNORGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'XNOR';
     }
 
+    /**
+     * Calculate the XNOR operation output
+     * Output is true when inputs are the same (exclusive nor)
+     * @protected
+     */
     calculateOutput() {
         this.output = this.input1 === this.input2;
     }

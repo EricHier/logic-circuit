@@ -2,12 +2,53 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * OR Gate
+ * 
+ * Implements the logical OR operation with two inputs and one output.
+ * Output is true when at least one input is true.
+ * 
+ * @element or-gate
+ * @summary Two-input OR logic gate
+ * @description OR gate with the following behavior:
+ * - Two input connectors (input1, input2)
+ * - One output connector
+ * - Output = input1 OR input2
+ * - Truth table: (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→1
+ * - Optional truth table display
+ * - Context menu with flip functionality
+ * 
+ * The gate performs logical disjunction: output is true when either or both inputs are true.
+ * 
+ * @fires output-changed - When the gate's output value changes due to input changes
+ * 
+ * @example
+ * ```html
+ * <or-gate></or-gate>
+ * ```
+ * 
+ * @slot con1 - First input connector slot
+ * @slot con2 - Second input connector slot  
+ * @slot con3 - Output connector slot
+ * 
+ * @csspart gate - The main gate container
+ * @csspart gate-text - The "OR" label text
+ * @csspart svg - The gate's SVG representation
+ * 
+ * @cssprop --or-gate-color - Background color of the gate (default: #ffffff)
+ * @cssprop --or-gate-stroke-color - Color of the gate outline (default: #000000)
+ */
 export default class ORGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'OR';
     }
 
+    /**
+     * Calculate the OR operation output
+     * Output is true when either input1 or input2 (or both) are true
+     * @protected
+     */
     calculateOutput() {
         this.output = this.input1 || this.input2;
     }

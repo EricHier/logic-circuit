@@ -2,12 +2,39 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * XOR Gate
+ * 
+ * Implements the logical XOR (exclusive OR) operation with two inputs and one output.
+ * Output is true when inputs are different.
+ * 
+ * @element xor-gate
+ * @summary Two-input XOR logic gate (exclusive OR)
+ * @description XOR gate with the following behavior:
+ * - Two input connectors (input1, input2)
+ * - One output connector
+ * - Output = input1 XOR input2 (exclusive or)
+ * - Truth table: (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0
+ * - Used in arithmetic circuits and parity checking
+ * 
+ * @fires output-changed - When the gate's output value changes
+ * 
+ * @example
+ * ```html
+ * <xor-gate></xor-gate>
+ * ```
+ */
 export default class XORGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'XOR';
     }
 
+    /**
+     * Calculate the XOR operation output
+     * Output is true when inputs are different (exclusive or)
+     * @protected
+     */
     calculateOutput() {
         this.output = this.input1 !== this.input2;
     }

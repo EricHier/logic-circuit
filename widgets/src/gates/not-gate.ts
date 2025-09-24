@@ -3,12 +3,53 @@ import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 import LukaswwLogicgates from '../../webwriter-logic-circuit.js';
 
+/**
+ * NOT Gate (Inverter)
+ * 
+ * Implements the logical NOT operation with one input and one output.
+ * Output is the inverse of the input.
+ * 
+ * @element not-gate
+ * @summary Single-input NOT logic gate (inverter)
+ * @description NOT gate with the following behavior:
+ * - One input connector (input1)
+ * - One output connector
+ * - Output = NOT input1
+ * - Truth table: (0)→1, (1)→0
+ * - Optional truth table display
+ * - Context menu with flip functionality
+ * 
+ * The gate performs logical negation: output is the opposite of the input.
+ * Also known as an inverter gate.
+ * 
+ * @fires output-changed - When the gate's output value changes due to input changes
+ * 
+ * @example
+ * ```html
+ * <not-gate></not-gate>
+ * ```
+ * 
+ * @slot con1 - Input connector slot
+ * @slot con3 - Output connector slot
+ * 
+ * @csspart gate - The main gate container
+ * @csspart gate-text - The "NOT" label text
+ * @csspart svg - The gate's SVG representation
+ * 
+ * @cssprop --not-gate-color - Background color of the gate (default: #ffffff)
+ * @cssprop --not-gate-stroke-color - Color of the gate outline (default: #000000)
+ */
 export default class NOTGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'NOT';
     }
 
+    /**
+     * Calculate the NOT operation output
+     * Output is the logical inverse of input1
+     * @protected
+     */
     calculateOutput() {
         this.output = !this.input1;
     }

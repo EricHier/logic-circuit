@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "widgets/webwriter-logic-circuit.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "WebWriter Logic Circuit Widget\n\nAn interactive logic circuit designer that allows users to create, connect, and simulate digital logic circuits.\nThis widget provides a drag-and-drop interface for building circuits with various logic gates.",
+          "name": "LogicCircuit",
+          "tagName": "webwriter-logic-circuit",
+          "customElement": true,
+          "members": [
+            {
+              "kind": "field",
+              "name": "simulationDelay",
+              "type": {
+                "text": "number"
+              },
+              "default": "500",
+              "description": "Delay in milliseconds between simulation steps",
+              "attribute": "simulation-delay",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "allowSimulation",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Controls whether simulation functionality is available\n- 0: Simulation disabled\n- 1: Simulation enabled (default)",
+              "attribute": "allow-simulation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "notGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of NOT gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "not-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "andGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of AND gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "and-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of OR gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "or-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "nandGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of NAND gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "nand-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "norGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of NOR gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "nor-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "xnorGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of XNOR gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "xnor-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "xorGateAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of XOR gates allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "xor-gate-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "splitterAllowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of splitter elements allowed\n- -1: Unlimited (default)\n- 0: Not allowed\n- >0: Specific limit",
+              "attribute": "splitter-allowed",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "simulateCircuit",
+              "description": "Start or stop circuit simulation\nWhen enabled, propagates signals through the circuit with the configured delay.\nStarts from input gates and follows connections through the circuit."
+            },
+            {
+              "kind": "method",
+              "name": "resetCircuit",
+              "description": "Reset the circuit to its initial state\nClears all gate outputs and connection states, returning the circuit to an inactive state"
+            },
+            {
+              "kind": "method",
+              "name": "toggleInstructions",
+              "description": "Toggle the visibility of the instructions panel\nShows or hides the instruction panel that explains how to use the circuit builder"
+            }
+          ],
+          "events": [
+            {
+              "name": "gate-added",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when a new gate is added to the circuit"
+            },
+            {
+              "name": "gate-deleted",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when a gate is removed from the circuit"
+            },
+            {
+              "name": "connection-made",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when two gates are connected"
+            },
+            {
+              "name": "connection-removed",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when a connection is removed"
+            },
+            {
+              "name": "simulation-started",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when circuit simulation begins"
+            },
+            {
+              "name": "simulation-stopped",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when circuit simulation stops"
+            }
+          ],
+          "superclass": {
+            "name": "LitElementWw",
+            "package": "@webwriter/lit"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LogicCircuit"
+          }
+        }
+      ]
+    }
+  ]
+}

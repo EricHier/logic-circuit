@@ -52,7 +52,9 @@
   "author": "Lukas Schneider",
   "scripts": {
     "prepublishOnly": "npx @webwriter/build",
-    "preview": "npx @webwriter/build preview webwriter-logic-circuit"
+    "preview": "npx @webwriter/build preview webwriter-logic-circuit",
+    "analyze": "cem analyze --config ./custom-elements-manifest.config.js",
+    "docs": "npm run analyze"
   },
   "dependencies": {
     "@lit/localize": "^0.12.2",

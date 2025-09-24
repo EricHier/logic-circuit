@@ -2,12 +2,39 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * NAND Gate
+ * 
+ * Implements the logical NAND (NOT AND) operation with two inputs and one output.
+ * Output is false only when both inputs are true.
+ * 
+ * @element nand-gate
+ * @summary Two-input NAND logic gate (NOT AND)
+ * @description NAND gate with the following behavior:
+ * - Two input connectors (input1, input2)
+ * - One output connector
+ * - Output = NOT(input1 AND input2)
+ * - Truth table: (0,0)→1, (0,1)→1, (1,0)→1, (1,1)→0
+ * - Universal gate (can implement any Boolean function)
+ * 
+ * @fires output-changed - When the gate's output value changes
+ * 
+ * @example
+ * ```html
+ * <nand-gate></nand-gate>
+ * ```
+ */
 export default class NANDGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'NAND';
     }
 
+    /**
+     * Calculate the NAND operation output
+     * Output is the negation of (input1 AND input2)
+     * @protected
+     */
     calculateOutput() {
         this.output = !(this.input1 && this.input2);
     }

@@ -2,12 +2,39 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * NOR Gate
+ * 
+ * Implements the logical NOR (NOT OR) operation with two inputs and one output.
+ * Output is true only when both inputs are false.
+ * 
+ * @element nor-gate
+ * @summary Two-input NOR logic gate (NOT OR)
+ * @description NOR gate with the following behavior:
+ * - Two input connectors (input1, input2)
+ * - One output connector
+ * - Output = NOT(input1 OR input2)
+ * - Truth table: (0,0)→1, (0,1)→0, (1,0)→0, (1,1)→0
+ * - Universal gate (can implement any Boolean function)
+ * 
+ * @fires output-changed - When the gate's output value changes
+ * 
+ * @example
+ * ```html
+ * <nor-gate></nor-gate>
+ * ```
+ */
 export default class NORGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'NOR';
     }
 
+    /**
+     * Calculate the NOR operation output
+     * Output is the negation of (input1 OR input2)
+     * @protected
+     */
     calculateOutput() {
         this.output = !(this.input1 || this.input2);
     }

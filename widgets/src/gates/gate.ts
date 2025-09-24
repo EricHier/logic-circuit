@@ -17,11 +17,47 @@ import '@shoelace-style/shoelace/dist/themes/light.css';
 import { Styles } from '../styles';
 import LogicCircuit from '../../webwriter-logic-circuit';
 
+/**
+ * Base Gate Class
+ * 
+ * Abstract base class for all logic gate components in the circuit builder.
+ * Provides common functionality for gate behavior, connections, and user interactions.
+ * 
+ * @element gate (abstract base class)
+ * @summary Base class for all logic gate components
+ * @description This abstract class provides common functionality for all logic gates including:
+ * - Input/output connection management
+ * - Drag and drop behavior
+ * - Context menu interactions
+ * - Truth table display
+ * - Signal propagation
+ * - Visual state updates
+ * 
+ * All specific gate types (AND, OR, NOT, etc.) extend this base class.
+ * 
+ * @fires gate-moved - Fired when the gate is moved within the workspace
+ * @fires gate-connected - Fired when a connection is made to this gate
+ * @fires gate-disconnected - Fired when a connection is removed from this gate
+ * @fires output-changed - Fired when the gate's output value changes
+ * 
+ * @example
+ * This is an abstract class, use specific gate implementations:
+ * ```html
+ * <and-gate></and-gate>
+ * <or-gate></or-gate>
+ * <not-gate></not-gate>
+ * ```
+ */
 export default class Gate extends LitElementWw {
     static movedGate;
     static x;
     static y;
 
+    /**
+     * Reference to the parent LogicCircuit widget
+     * @type {LogicCircuit}
+     * @readonly
+     */
     widget: LogicCircuit
 
     public static get scopedElements() {
@@ -37,19 +73,95 @@ export default class Gate extends LitElementWw {
 
     static styles = Styles;
 
+    /**
+     * First input value (true/false/null)
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor input1: boolean = null;
+    
+    /**
+     * Second input value (true/false/null) - not used by all gate types
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor input2: boolean = null;
+    
+    /**
+     * Primary output value (true/false/null)
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor output: boolean = null;
+    
+    /**
+     * Secondary output value (true/false/null) - used by splitter
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor output2: boolean = null;
+    
+    /**
+     * Type of gate (AND, OR, NOT, NAND, NOR, XOR, XNOR, INPUT, OUTPUT, SPLITTER)
+     * @type {string}
+     * @default null
+     */
     @property({ type: String }) accessor gatetype: string = null;
+    
+    /**
+     * Whether the gate can be moved and is part of the circuit
+     * @type {boolean}
+     * @default false
+     */
     @property({ type: Boolean }) accessor movable: boolean = false;
+    
+    /**
+     * Unique identifier for this gate instance
+     * @type {string}
+     * @default null
+     */
     @property({ type: String }) accessor id: string = null;
+    
+    /**
+     * First input connector element
+     * @type {ConnectorElement|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conIn1: ConnectorElement = null;
+    
+    /**
+     * Second input connector element
+     * @type {ConnectorElement|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conIn2: ConnectorElement = null;
+    
+    /**
+     * Primary output connector element
+     * @type {Object|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conOut: Object = null;
+    
+    /**
+     * Secondary output connector element (for splitter)
+     * @type {Object|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conOut2: Object = null;
+    
+    /**
+     * Whether to show the truth table for this gate
+     * @type {boolean}
+     * @default false
+     */
     @property({ type: Boolean }) accessor showTruthTable: boolean = false;
 
+    /**
+     * Context menu element for gate operations
+     * @type {SlMenu}
+     * @readonly
+     */
     @query('#contextMenu') accessor contextMenu: SlMenu;
 
     constructor() {
@@ -181,12 +293,28 @@ export default class Gate extends LitElementWw {
         }
     }
 
+    /**
+     * Calculate the output value based on inputs
+     * This method should be overridden by specific gate implementations
+     * @abstract
+     * @protected
+     */
     calculateOutput() {}
 
+    /**
+     * Toggle the first input value
+     * Changes input1 between true and false
+     * @public
+     */
     changeInput1() {
         this.input1 = !this.input1;
     }
 
+    /**
+     * Toggle the second input value
+     * Changes input2 between true and false
+     * @public
+     */
     changeInput2() {
         this.input2 = !this.input2;
     }
@@ -225,6 +353,12 @@ export default class Gate extends LitElementWw {
         }
     }
 
+    /**
+     * Delete this gate from the circuit
+     * Removes the gate and all its connections
+     * @public
+     * @fires gate-deleted - When the gate is successfully deleted
+     */
     deleteGate() {
         const workspace = document.querySelector('webwriter-logic-circuit') as LukaswwLogicgates;
         const gateElements = workspace.getGateElements();

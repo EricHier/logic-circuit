@@ -2,12 +2,53 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * AND Gate
+ * 
+ * Implements the logical AND operation with two inputs and one output.
+ * Output is true only when both inputs are true.
+ * 
+ * @element and-gate
+ * @summary Two-input AND logic gate
+ * @description AND gate with the following behavior:
+ * - Two input connectors (input1, input2)
+ * - One output connector
+ * - Output = input1 AND input2
+ * - Truth table: (0,0)→0, (0,1)→0, (1,0)→0, (1,1)→1
+ * - Optional truth table display
+ * - Context menu with flip functionality
+ * 
+ * The gate performs logical conjunction: output is true only when both inputs are true.
+ * 
+ * @fires output-changed - When the gate's output value changes due to input changes
+ * 
+ * @example
+ * ```html
+ * <and-gate></and-gate>
+ * ```
+ * 
+ * @slot con1 - First input connector slot
+ * @slot con2 - Second input connector slot  
+ * @slot con3 - Output connector slot
+ * 
+ * @csspart gate - The main gate container
+ * @csspart gate-text - The "AND" label text
+ * @csspart svg - The gate's SVG representation
+ * 
+ * @cssprop --and-gate-color - Background color of the gate (default: #ffffff)
+ * @cssprop --and-gate-stroke-color - Color of the gate outline (default: #000000)
+ */
 export default class ANDGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'AND';
     }
 
+    /**
+     * Calculate the AND operation output
+     * Output is true only when both input1 and input2 are true
+     * @protected
+     */
     calculateOutput() {
         this.output = this.input1 && this.input2;
     }
