@@ -2,12 +2,52 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * AND logic gate component that implements logical AND operation.
+ * 
+ * The AND gate outputs true (high) only when both inputs are true (high).
+ * This is one of the fundamental logic gates used in digital circuits.
+ * 
+ * ## Truth Table
+ * | Input A | Input B | Output |
+ * |---------|---------|--------|
+ * |    0    |    0    |   0    |
+ * |    0    |    1    |   0    |
+ * |    1    |    0    |   0    |
+ * |    1    |    1    |   1    |
+ * 
+ * ## Logical Operation
+ * Output = Input A AND Input B
+ * 
+ * ## Usage
+ * The AND gate is commonly used for:
+ * - Conditional logic where multiple conditions must be met
+ * - Enabling signals only when all requirements are satisfied
+ * - Building complex logic circuits like adders and comparators
+ * 
+ * ## Visual Representation
+ * The gate uses the standard IEEE symbol for AND gates with a rounded right edge.
+ * It has two input terminals on the left side and one output terminal on the right.
+ * 
+ * @element and-gate
+ * @extends Gate
+ * @since 1.0.0
+ * @status stable
+ */
 export default class ANDGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'AND';
     }
 
+    /**
+     * Calculates the AND gate output based on current input states.
+     * Implements the logical AND operation: output is true only when both inputs are true.
+     * 
+     * @method
+     * @override
+     * @protected
+     */
     calculateOutput() {
         this.output = this.input1 && this.input2;
     }

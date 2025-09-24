@@ -2,6 +2,37 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * Output component that displays the final results of logic circuit computations.
+ * 
+ * The Output component acts as a signal sink that shows the current state of signals
+ * from connected logic gates. It provides visual feedback about circuit results and
+ * is essential for observing circuit behavior during simulation.
+ * 
+ * ## Features
+ * - **Signal Display**: Shows current input signal state (0 or 1)
+ * - **Visual Feedback**: Displays the logical state clearly for observation
+ * - **Circuit Endpoint**: Represents the final output of a logic circuit
+ * - **No Output Terminals**: Only has input terminals (no output connections)
+ * 
+ * ## Usage
+ * Output components are essential for:
+ * - Observing circuit computation results
+ * - Verifying circuit behavior against expected truth tables
+ * - Creating circuit demonstrations and tutorials
+ * - Testing and debugging complex logic circuits
+ * - Building educational examples with clear result visualization
+ * 
+ * ## State Management
+ * - Reflects input signal state directly
+ * - Updates automatically when connected signal changes
+ * - Provides immediate visual feedback during simulation
+ * 
+ * @element output-gate
+ * @extends Gate
+ * @since 1.0.0
+ * @status stable
+ */
 export default class Output extends Gate {
     constructor() {
         super();

@@ -17,11 +17,56 @@ import '@shoelace-style/shoelace/dist/themes/light.css';
 import { Styles } from '../styles';
 import LogicCircuit from '../../webwriter-logic-circuit';
 
+/**
+ * Base class for all logic gate components in the circuit simulator.
+ * 
+ * This abstract class provides common functionality for all gate types including:
+ * - Input/output signal management
+ * - Visual connector creation and positioning
+ * - Drag-and-drop behavior for gate placement and movement
+ * - Context menu interactions for gate configuration
+ * - Truth table display capabilities
+ * - Signal propagation and visual feedback
+ * 
+ * ## Gate Types
+ * All gates inherit from this base class and implement specific logic:
+ * - INPUT: User-controllable input source
+ * - OUTPUT: Circuit output display
+ * - NOT: Logical NOT (inverter)
+ * - AND: Logical AND (2 inputs)
+ * - OR: Logical OR (2 inputs)  
+ * - NAND: Logical NAND (2 inputs)
+ * - NOR: Logical NOR (2 inputs)
+ * - XOR: Logical XOR (2 inputs)
+ * - XNOR: Logical XNOR (2 inputs)
+ * - SPLITTER: Signal distribution (1 input, 2 outputs)
+ * 
+ * ## State Management
+ * Gates maintain their input and output states, automatically updating
+ * connected gates when their outputs change. The simulation system
+ * processes gates in dependency order to ensure correct signal propagation.
+ * 
+ * ## Interactive Features
+ * - **Drag & Drop**: Gates can be moved around the workspace when movable=true
+ * - **Context Menu**: Right-click provides gate-specific options
+ * - **Truth Tables**: Educational overlays showing gate logic tables
+ * - **Visual Feedback**: Connectors change color to indicate signal states
+ * 
+ * @abstract
+ * @element gate (base class)
+ * @since 1.0.0
+ * @status stable
+ */
 export default class Gate extends LitElementWw {
     static movedGate;
     static x;
     static y;
 
+    /**
+     * Reference to the parent LogicCircuit widget component.
+     * Provides access to global circuit state and management functions.
+     * @type {LogicCircuit}
+     */
     widget: LogicCircuit
 
     public static get scopedElements() {
@@ -37,17 +82,101 @@ export default class Gate extends LitElementWw {
 
     static styles = Styles;
 
+    /**
+     * Current state of the first input terminal.
+     * true = high/active signal, false = low/inactive signal, null = no connection.
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor input1: boolean = null;
+
+    /**
+     * Current state of the second input terminal (for gates with 2 inputs).
+     * true = high/active signal, false = low/inactive signal, null = no connection.
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor input2: boolean = null;
+
+    /**
+     * Current state of the primary output terminal.
+     * Computed based on gate logic and input states.
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor output: boolean = null;
+
+    /**
+     * Current state of the secondary output terminal (for splitter gates).
+     * Usually mirrors the primary output for signal distribution.
+     * @type {boolean|null}
+     * @default null
+     */
     @property({ type: Boolean }) accessor output2: boolean = null;
+
+    /**
+     * Type identifier for this gate specifying its logical function.
+     * Used for gate-specific behavior and visual representation.
+     * @type {string}
+     * @default null
+     * @values "INPUT" | "OUTPUT" | "NOT" | "AND" | "OR" | "NAND" | "NOR" | "XOR" | "XNOR" | "SPLITTER"
+     */
     @property({ type: String }) accessor gatetype: string = null;
+
+    /**
+     * Whether this gate can be moved around the workspace.
+     * Gates in the sidebar have movable=false, placed gates have movable=true.
+     * @type {boolean}
+     * @default false
+     */
     @property({ type: Boolean }) accessor movable: boolean = false;
+
+    /**
+     * Unique identifier for this gate instance.
+     * Used for connection management and gate tracking.
+     * @type {string}
+     * @default null
+     */
     @property({ type: String }) accessor id: string = null;
+
+    /**
+     * Reference to the first input connector element.
+     * Used for managing connections and signal flow.
+     * @type {ConnectorElement|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conIn1: ConnectorElement = null;
+
+    /**
+     * Reference to the second input connector element.
+     * Used for gates with two inputs (AND, OR, NAND, NOR, XOR, XNOR).
+     * @type {ConnectorElement|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conIn2: ConnectorElement = null;
+
+    /**
+     * Reference to the primary output connector element.
+     * Used for managing output connections and signal propagation.
+     * @type {Object|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conOut: Object = null;
+
+    /**
+     * Reference to the secondary output connector element.
+     * Used for splitter gates that have dual outputs.
+     * @type {Object|null}
+     * @default null
+     */
     @property({ type: Object }) accessor conOut2: Object = null;
+
+    /**
+     * Whether to display the truth table overlay for this gate.
+     * Educational feature that shows the logical behavior of the gate.
+     * @type {boolean}
+     * @default false
+     */
     @property({ type: Boolean }) accessor showTruthTable: boolean = false;
 
     @query('#contextMenu') accessor contextMenu: SlMenu;
@@ -181,12 +310,37 @@ export default class Gate extends LitElementWw {
         }
     }
 
+    /**
+     * Abstract method that calculates the gate's output based on its inputs.
+     * Must be implemented by each specific gate type to define its logical behavior.
+     * 
+     * For example:
+     * - AND gate: output = input1 && input2
+     * - OR gate: output = input1 || input2  
+     * - NOT gate: output = !input1
+     * 
+     * @method
+     * @abstract
+     * @protected
+     */
     calculateOutput() {}
 
+    /**
+     * Toggles the state of the first input.
+     * Used primarily for INPUT gates to allow user interaction.
+     * @method
+     * @public
+     */
     changeInput1() {
         this.input1 = !this.input1;
     }
 
+    /**
+     * Toggles the state of the second input.
+     * Used primarily for INPUT gates with dual outputs.
+     * @method
+     * @public
+     */
     changeInput2() {
         this.input2 = !this.input2;
     }

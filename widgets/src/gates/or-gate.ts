@@ -2,6 +2,35 @@ import { html } from 'lit';
 import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 
+/**
+ * OR logic gate component that implements logical OR operation.
+ * 
+ * The OR gate outputs true (high) when at least one of its inputs is true (high).
+ * It outputs false (low) only when both inputs are false (low).
+ * 
+ * ## Truth Table
+ * | Input A | Input B | Output |
+ * |---------|---------|--------|
+ * |    0    |    0    |   0    |
+ * |    0    |    1    |   1    |
+ * |    1    |    0    |   1    |
+ * |    1    |    1    |   1    |
+ * 
+ * ## Logical Operation
+ * Output = Input A OR Input B
+ * 
+ * ## Usage
+ * The OR gate is commonly used for:
+ * - Alternative path logic where any condition can trigger an action
+ * - Combining multiple enable signals
+ * - Building multiplexers and decoders
+ * - Error detection systems where any fault condition triggers an alarm
+ * 
+ * @element or-gate
+ * @extends Gate
+ * @since 1.0.0
+ * @status stable
+ */
 export default class ORGate extends Gate {
     constructor() {
         super();

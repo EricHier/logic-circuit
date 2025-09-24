@@ -8,7 +8,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A comprehensive logic circuit simulator widget for WebWriter that allows users to create, \nedit, and simulate digital logic circuits using various logic gates.\n\nThis component provides:\n- Drag-and-drop interface for adding logic gates (AND, OR, NOT, NAND, NOR, XOR, XNOR)\n- Input and output components for circuit endpoints\n- Visual connection system between gate terminals\n- Real-time circuit simulation with visual feedback\n- Truth table display for educational purposes\n- Configurable gate limitations for controlled learning environments\n- Multilingual support with localization\n\n## Usage Example\n```html\n<webwriter-logic-circuit \n  allowSimulation=\"1\" \n  simulationDelay=\"500\"\n  andGateAllowed=\"5\"\n  orGateAllowed=\"3\">\n</webwriter-logic-circuit>\n```\n\n## Key Features\n- **Interactive Workspace**: Large canvas area for circuit design\n- **Gate Library**: Sidebar with all available logic gates\n- **Connection System**: Click-to-connect interface for linking gates\n- **Simulation Mode**: Toggle between edit and simulation modes\n- **Visual Feedback**: Color-coded connections showing signal states\n- **Educational Tools**: Built-in instructions and gate counters\n\n## Advanced Configuration Examples\n\n### Restricted Educational Mode\n```html\n<!-- Only allow basic gates for introductory lessons -->\n<webwriter-logic-circuit \n  andGateAllowed=\"2\"\n  orGateAllowed=\"2\"\n  notGateAllowed=\"1\"\n  nandGateAllowed=\"0\"\n  allowSimulation=\"1\"\n  simulationDelay=\"1000\">\n</webwriter-logic-circuit>\n```\n\n### Advanced Circuit Design\n```html\n<!-- Unrestricted mode for complex circuit design -->\n<webwriter-logic-circuit \n  allowSimulation=\"1\"\n  simulationDelay=\"300\"\n  splitterAllowed=\"-1\">\n</webwriter-logic-circuit>\n```\n\n### Assessment Mode\n```html\n<!-- Disable simulation for circuit design testing -->\n<webwriter-logic-circuit \n  allowSimulation=\"0\"\n  andGateAllowed=\"5\"\n  orGateAllowed=\"3\"\n  notGateAllowed=\"2\">\n</webwriter-logic-circuit>\n```\n\n## Connection Rules & Edge Cases\n\n### Valid Connections\n- Output terminals can connect to input terminals\n- Each input terminal accepts only one connection\n- Multiple outputs can connect to different inputs\n- Splitter gates can distribute one signal to multiple destinations\n\n### Invalid Connections (Handled Gracefully)\n- Input-to-input connections are rejected\n- Output-to-output connections are rejected  \n- Connections within the same gate are rejected\n- Multiple connections to same input are rejected\n\n### Simulation Behavior\n- Signals propagate with configurable delay (simulationDelay)\n- Unconnected inputs are treated as false/low\n- Feedback loops are detected and handled\n- Circuit state resets when simulation is toggled off\n\n## Accessibility Features\n- Keyboard navigation support\n- Screen reader compatible\n- High contrast visual indicators\n- Multilingual interface support\n- Configurable simulation speeds for different learning needs",
           "name": "LogicCircuit",
           "members": [
             {
@@ -37,18 +37,20 @@
               "kind": "field",
               "name": "lineElements",
               "type": {
-                "text": "array"
+                "text": "Array<Object>"
               },
               "default": "[]",
+              "description": "Array of all connection lines currently drawn in the circuit.\nEach line connects output terminals to input terminals of gates.",
               "attribute": "lineElements"
             },
             {
               "kind": "field",
               "name": "gateElements",
               "type": {
-                "text": "array"
+                "text": "Array<Gate>"
               },
               "default": "[]",
+              "description": "Array of all gate elements currently placed in the circuit workspace.\nIncludes all types of logic gates, inputs, outputs, and splitters.",
               "attribute": "gateElements"
             },
             {
@@ -58,6 +60,7 @@
                 "text": "String"
               },
               "default": "\"\"",
+              "description": "Serialized string representation of gates for persistence and reflection.\nUsed internally for state management and saving circuit configurations.",
               "attribute": "reflectGates",
               "reflects": true
             },
@@ -68,6 +71,7 @@
                 "text": "String"
               },
               "default": "\"\"",
+              "description": "Serialized string representation of connections for persistence and reflection.\nUsed internally for state management and saving circuit configurations.",
               "attribute": "reflectCons",
               "reflects": true
             },
@@ -78,6 +82,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "Internal counter for generating unique gate IDs.\nAutomatically incremented when new gates are added to ensure uniqueness.",
               "attribute": "gateID"
             },
             {
@@ -87,6 +92,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "Internal counter for generating unique line/connection IDs.\nAutomatically incremented when new connections are created.",
               "attribute": "lineID"
             },
             {
@@ -96,6 +102,7 @@
                 "text": "number"
               },
               "default": "1",
+              "description": "Current zoom level of the workspace. \nValues greater than 1 zoom in, values less than 1 zoom out.",
               "attribute": "zoom"
             },
             {
@@ -105,6 +112,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "X-coordinate where dragging operation started.\nUsed internally for calculating drag distances and workspace panning.",
               "attribute": "dragStartX"
             },
             {
@@ -114,6 +122,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "Y-coordinate where dragging operation started.\nUsed internally for calculating drag distances and workspace panning.",
               "attribute": "dragStartY"
             },
             {
@@ -123,6 +132,7 @@
                 "text": "boolean"
               },
               "default": "true",
+              "description": "Whether the circuit simulation is currently active.\nWhen true, signals propagate through the circuit and visual feedback is shown.",
               "attribute": "simulate"
             },
             {
@@ -132,6 +142,7 @@
                 "text": "number"
               },
               "default": "500",
+              "description": "Delay in milliseconds between simulation steps.\nControls how fast signals propagate through the circuit during simulation.\nHigher values make simulation slower but easier to follow visually.",
               "attribute": "simulationDelay",
               "reflects": true
             },
@@ -142,6 +153,7 @@
                 "text": "number"
               },
               "default": "1",
+              "description": "Controls whether simulation functionality is enabled.\n0 = simulation disabled, 1 = simulation enabled.\nUseful for educational scenarios where you want students to build circuits without testing them.",
               "attribute": "allowSimulation",
               "reflects": true
             },
@@ -152,6 +164,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of NOT gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.\nUseful for educational exercises with constraints.",
               "attribute": "notGateAllowed",
               "reflects": true
             },
@@ -162,6 +175,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of AND gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "andGateAllowed",
               "reflects": true
             },
@@ -172,6 +186,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of OR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "orGateAllowed",
               "reflects": true
             },
@@ -182,6 +197,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of NAND gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "nandGateAllowed",
               "reflects": true
             },
@@ -192,6 +208,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of NOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "norGateAllowed",
               "reflects": true
             },
@@ -202,6 +219,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of XNOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "xnorGateAllowed",
               "reflects": true
             },
@@ -212,6 +230,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of XOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "xorGateAllowed",
               "reflects": true
             },
@@ -222,6 +241,7 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of splitter components allowed in the circuit.\nSplitters allow one output to connect to multiple inputs.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
               "attribute": "splitterAllowed",
               "reflects": true
             },
@@ -232,6 +252,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Whether the user is currently dragging an element.\nUsed internally for managing drag-and-drop operations.",
               "attribute": "isDragging"
             },
             {
@@ -240,69 +261,94 @@
               "type": {
                 "text": "boolean"
               },
-              "default": "false"
+              "default": "false",
+              "description": "Whether the user is currently drawing a connection line.\nUsed internally to manage the connection creation process."
             },
             {
               "kind": "field",
               "name": "startConnector",
               "type": {
-                "text": "ConnectorElement"
+                "text": "ConnectorElement|null"
               },
-              "default": "null"
+              "default": "null",
+              "description": "The connector element where line drawing started.\nUsed during the connection creation process."
             },
             {
               "kind": "field",
               "name": "endConnector",
               "type": {
-                "text": "ConnectorElement"
+                "text": "ConnectorElement|null"
               },
-              "default": "null"
+              "default": "null",
+              "description": "The connector element where line drawing will end.\nUsed during the connection creation process."
             },
             {
               "kind": "field",
-              "name": "svgCanvas"
+              "name": "svgCanvas",
+              "description": "Reference to the SVG canvas element used for drawing connections.\nThis element contains all the connection lines between gates."
             },
             {
               "kind": "field",
-              "name": "workspaceContainer"
+              "name": "workspaceContainer",
+              "description": "Reference to the main workspace container element.\nContains the entire circuit design area including sidebar and workspace."
             },
             {
               "kind": "field",
-              "name": "wsDrag"
+              "name": "wsDrag",
+              "description": "Reference to the draggable workspace area element.\nThis is the main canvas where gates can be placed and moved."
             },
             {
               "kind": "field",
-              "name": "simCheckbox"
+              "name": "simCheckbox",
+              "description": "Reference to the simulation checkbox element.\nUsed to toggle simulation mode on and off."
             },
             {
               "kind": "field",
-              "name": "instructionsContainer"
+              "name": "instructionsContainer",
+              "description": "Reference to the instructions container element.\nContains the help text and usage instructions that can be toggled."
             },
             {
               "kind": "field",
               "name": "getGateElements",
-              "privacy": "public"
+              "privacy": "public",
+              "description": "Getter function that returns the current array of gate elements.\nProvides external access to the circuit's gate collection.",
+              "return": {
+                "type": {
+                  "text": "Array<Gate>"
+                }
+              }
             },
             {
               "kind": "field",
               "name": "getLineElements",
-              "privacy": "public"
+              "privacy": "public",
+              "description": "Getter function that returns the current array of connection lines.\nProvides external access to the circuit's connection collection.",
+              "return": {
+                "type": {
+                  "text": "Array<Object>"
+                }
+              }
             },
             {
               "kind": "field",
               "name": "svgPathToMouse",
               "type": {
-                "text": "SVGPathElement | null"
+                "text": "SVGPathElement|null"
               },
-              "default": "null"
+              "default": "null",
+              "description": "SVG path element used for drawing temporary connection lines.\nShows a preview line when user is in the process of creating a connection."
             },
             {
               "kind": "method",
-              "name": "toggleInstructions"
+              "name": "toggleInstructions",
+              "description": "Toggles the visibility of the instructions panel.\nShows/hides the help text that explains how to use the circuit editor.",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "handleAllowSimulation"
+              "name": "handleAllowSimulation",
+              "description": "Handles changes to the simulation enablement setting.\nToggles the simulation capability and resets the circuit when changed.\nControls whether users can activate circuit simulation mode.",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -313,18 +359,28 @@
               "name": "handleMouseDown",
               "parameters": [
                 {
-                  "name": "event"
+                  "name": "event",
+                  "description": "The mouse down event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
                 }
-              ]
+              ],
+              "description": "Handles mouse down events on the workspace.\nInitiates connection drawing when clicking on connectors or starts workspace panning."
             },
             {
               "kind": "method",
               "name": "handleMouseMove",
               "parameters": [
                 {
-                  "name": "event"
+                  "name": "event",
+                  "description": "The mouse move event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
                 }
-              ]
+              ],
+              "description": "Handles mouse move events on the workspace.\nUpdates workspace panning during drag operations and shows connection preview during line drawing."
             },
             {
               "kind": "method",
@@ -375,9 +431,14 @@
               "name": "handleDrop",
               "parameters": [
                 {
-                  "name": "event"
+                  "name": "event",
+                  "description": "The drop event containing drag data",
+                  "type": {
+                    "text": "DragEvent"
+                  }
                 }
-              ]
+              ],
+              "description": "Handles drop events when dragging gates from the sidebar or moving existing gates.\nCreates new gates when dropped from sidebar, moves existing gates when repositioning,\nand deletes gates when dropped on trash can."
             },
             {
               "kind": "method",
@@ -402,32 +463,172 @@
             },
             {
               "kind": "method",
-              "name": "simulateCircuit"
+              "name": "simulateCircuit",
+              "description": "Initiates circuit simulation by processing all gates in the circuit.\nPropagates signals through the circuit with timing delays for visual feedback.\nOnly works when simulation is enabled and simulation checkbox is checked.",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "resetCircuit"
+              "name": "resetCircuit",
+              "description": "Resets the entire circuit to its initial state.\nClears all signal states and visual indicators, preparing for new simulation.",
+              "privacy": "public"
             },
             {
               "kind": "method",
               "name": "calculateBoundaries"
             }
           ],
+          "events": [
+            {
+              "description": "Fired when a new gate is added to the circuit",
+              "name": "gate-added"
+            },
+            {
+              "description": "Fired when a gate is removed from the circuit",
+              "name": "gate-removed"
+            },
+            {
+              "description": "Fired when a new connection is made between gates",
+              "name": "connection-created"
+            },
+            {
+              "description": "Fired when a connection is removed",
+              "name": "connection-removed"
+            },
+            {
+              "description": "Fired when circuit simulation begins",
+              "name": "simulation-started"
+            },
+            {
+              "description": "Fired when circuit simulation ends",
+              "name": "simulation-stopped"
+            }
+          ],
           "attributes": [
+            {
+              "name": "reflect-gates",
+              "type": {
+                "text": "String"
+              },
+              "default": "\"\"",
+              "description": "Serialized string representation of gates for persistence and reflection.\nUsed internally for state management and saving circuit configurations.",
+              "fieldName": "reflectGates"
+            },
+            {
+              "name": "reflect-cons",
+              "type": {
+                "text": "String"
+              },
+              "default": "\"\"",
+              "description": "Serialized string representation of connections for persistence and reflection.\nUsed internally for state management and saving circuit configurations.",
+              "fieldName": "reflectCons"
+            },
+            {
+              "name": "simulation-delay",
+              "type": {
+                "text": "number"
+              },
+              "default": "500",
+              "description": "Delay in milliseconds between simulation steps.\nControls how fast signals propagate through the circuit during simulation.\nHigher values make simulation slower but easier to follow visually.",
+              "fieldName": "simulationDelay"
+            },
+            {
+              "name": "allow-simulation",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Controls whether simulation functionality is enabled.\n0 = simulation disabled, 1 = simulation enabled.\nUseful for educational scenarios where you want students to build circuits without testing them.",
+              "fieldName": "allowSimulation"
+            },
+            {
+              "name": "not-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of NOT gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.\nUseful for educational exercises with constraints.",
+              "fieldName": "notGateAllowed"
+            },
+            {
+              "name": "and-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of AND gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "andGateAllowed"
+            },
+            {
+              "name": "or-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of OR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "orGateAllowed"
+            },
+            {
+              "name": "nand-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of NAND gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "nandGateAllowed"
+            },
+            {
+              "name": "nor-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of NOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "norGateAllowed"
+            },
+            {
+              "name": "xnor-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of XNOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "xnorGateAllowed"
+            },
+            {
+              "name": "xor-gate-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of XOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "xorGateAllowed"
+            },
+            {
+              "name": "splitter-allowed",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "description": "Maximum number of splitter components allowed in the circuit.\nSplitters allow one output to connect to multiple inputs.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "fieldName": "splitterAllowed"
+            },
             {
               "name": "lineElements",
               "type": {
-                "text": "array"
+                "text": "Array<Object>"
               },
               "default": "[]",
+              "description": "Array of all connection lines currently drawn in the circuit.\nEach line connects output terminals to input terminals of gates.",
               "fieldName": "lineElements"
             },
             {
               "name": "gateElements",
               "type": {
-                "text": "array"
+                "text": "Array<Gate>"
               },
               "default": "[]",
+              "description": "Array of all gate elements currently placed in the circuit workspace.\nIncludes all types of logic gates, inputs, outputs, and splitters.",
               "fieldName": "gateElements"
             },
             {
@@ -436,6 +637,8 @@
                 "text": "String"
               },
               "default": "\"\"",
+              "description": "Serialized string representation of gates for persistence and reflection.\nUsed internally for state management and saving circuit configurations.",
+              "attribute": "reflect-gates",
               "fieldName": "reflectGates"
             },
             {
@@ -444,6 +647,8 @@
                 "text": "String"
               },
               "default": "\"\"",
+              "description": "Serialized string representation of connections for persistence and reflection.\nUsed internally for state management and saving circuit configurations.",
+              "attribute": "reflect-cons",
               "fieldName": "reflectCons"
             },
             {
@@ -452,6 +657,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "Internal counter for generating unique gate IDs.\nAutomatically incremented when new gates are added to ensure uniqueness.",
               "fieldName": "gateID"
             },
             {
@@ -460,6 +666,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "Internal counter for generating unique line/connection IDs.\nAutomatically incremented when new connections are created.",
               "fieldName": "lineID"
             },
             {
@@ -468,6 +675,7 @@
                 "text": "number"
               },
               "default": "1",
+              "description": "Current zoom level of the workspace. \nValues greater than 1 zoom in, values less than 1 zoom out.",
               "fieldName": "zoom"
             },
             {
@@ -476,6 +684,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "X-coordinate where dragging operation started.\nUsed internally for calculating drag distances and workspace panning.",
               "fieldName": "dragStartX"
             },
             {
@@ -484,6 +693,7 @@
                 "text": "number"
               },
               "default": "0",
+              "description": "Y-coordinate where dragging operation started.\nUsed internally for calculating drag distances and workspace panning.",
               "fieldName": "dragStartY"
             },
             {
@@ -492,6 +702,7 @@
                 "text": "boolean"
               },
               "default": "true",
+              "description": "Whether the circuit simulation is currently active.\nWhen true, signals propagate through the circuit and visual feedback is shown.",
               "fieldName": "simulate"
             },
             {
@@ -500,6 +711,8 @@
                 "text": "number"
               },
               "default": "500",
+              "description": "Delay in milliseconds between simulation steps.\nControls how fast signals propagate through the circuit during simulation.\nHigher values make simulation slower but easier to follow visually.",
+              "attribute": "simulation-delay",
               "fieldName": "simulationDelay"
             },
             {
@@ -508,6 +721,8 @@
                 "text": "number"
               },
               "default": "1",
+              "description": "Controls whether simulation functionality is enabled.\n0 = simulation disabled, 1 = simulation enabled.\nUseful for educational scenarios where you want students to build circuits without testing them.",
+              "attribute": "allow-simulation",
               "fieldName": "allowSimulation"
             },
             {
@@ -516,6 +731,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of NOT gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.\nUseful for educational exercises with constraints.",
+              "attribute": "not-gate-allowed",
               "fieldName": "notGateAllowed"
             },
             {
@@ -524,6 +741,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of AND gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "and-gate-allowed",
               "fieldName": "andGateAllowed"
             },
             {
@@ -532,6 +751,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of OR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "or-gate-allowed",
               "fieldName": "orGateAllowed"
             },
             {
@@ -540,6 +761,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of NAND gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "nand-gate-allowed",
               "fieldName": "nandGateAllowed"
             },
             {
@@ -548,6 +771,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of NOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "nor-gate-allowed",
               "fieldName": "norGateAllowed"
             },
             {
@@ -556,6 +781,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of XNOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "xnor-gate-allowed",
               "fieldName": "xnorGateAllowed"
             },
             {
@@ -564,6 +791,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of XOR gates allowed in the circuit.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "xor-gate-allowed",
               "fieldName": "xorGateAllowed"
             },
             {
@@ -572,6 +801,8 @@
                 "text": "number"
               },
               "default": "-1",
+              "description": "Maximum number of splitter components allowed in the circuit.\nSplitters allow one output to connect to multiple inputs.\n-1 = unlimited, 0 = none allowed, positive number = specific limit.",
+              "attribute": "splitter-allowed",
               "fieldName": "splitterAllowed"
             },
             {
@@ -580,6 +811,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Whether the user is currently dragging an element.\nUsed internally for managing drag-and-drop operations.",
               "fieldName": "isDragging"
             }
           ],

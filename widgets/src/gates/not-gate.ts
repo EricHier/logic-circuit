@@ -3,12 +3,52 @@ import Gate from './gate.js';
 import { customElement } from 'lit/decorators.js';
 import LukaswwLogicgates from '../../webwriter-logic-circuit.js';
 
+/**
+ * NOT logic gate component that implements logical negation (inverter).
+ * 
+ * The NOT gate outputs the inverse of its input signal. When the input is high (true),
+ * the output is low (false), and vice versa. This is also known as an inverter gate.
+ * 
+ * ## Truth Table
+ * | Input | Output |
+ * |-------|--------|
+ * |   0   |   1    |
+ * |   1   |   0    |
+ * 
+ * ## Logical Operation
+ * Output = NOT Input (or ¬Input)
+ * 
+ * ## Usage
+ * The NOT gate is commonly used for:
+ * - Signal inversion and polarity reversal
+ * - Creating complementary signals
+ * - Building other logic gates (NAND, NOR) when combined with AND/OR
+ * - Implementing active-low logic
+ * - Logic simplification in Boolean algebra
+ * 
+ * ## Visual Representation
+ * The gate uses the standard IEEE symbol: a triangle (buffer) with a small circle
+ * (inversion bubble) at the output. It has one input terminal and one output terminal.
+ * 
+ * @element not-gate
+ * @extends Gate
+ * @since 1.0.0
+ * @status stable
+ */
 export default class NOTGate extends Gate {
     constructor() {
         super();
         this.gatetype = 'NOT';
     }
 
+    /**
+     * Calculates the NOT gate output based on current input state.
+     * Implements logical negation: output is the inverse of the input.
+     * 
+     * @method
+     * @override
+     * @protected
+     */
     calculateOutput() {
         this.output = !this.input1;
     }
