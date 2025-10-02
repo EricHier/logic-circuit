@@ -67,7 +67,7 @@ export default class ConnectorElement extends LitElement {
                 widget.isDrawingLine = false;
                 widget.svgPathToMouse.setAttribute('d', '');
 
-                console.error(msg('Only one connection allowed'));
+                DEV: console.error(msg('Only one connection allowed'));
 
                 return;
             }
@@ -87,7 +87,7 @@ export default class ConnectorElement extends LitElement {
             ) {
                 createLine(widget, widget.startConnector, widget.endConnector);
             } else {
-                console.error(msg('Connectors are from the same type'));
+                DEV: console.error(msg('Connectors are from the same type'));
             }
             
             // Reset connectors after processing
